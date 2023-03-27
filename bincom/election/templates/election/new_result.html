@@ -1,0 +1,18 @@
+{% extends "election/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h3>Enter New Result </h3>
+    <div class="content-section">
+        <form action="{% url 'home' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Enter Results </legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Enter</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

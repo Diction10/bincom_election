@@ -1,0 +1,45 @@
+{% extends "election/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-section">
+        <form action="{% url 'total' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Choose Local Government </legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Choose</button>
+            </div>
+        </form>
+    </div>
+            
+    <h3>Welcome to the Election Result Page </h3>
+        {% if not pu_name %}
+            <h4> There are no result for this LG </h4>
+        {% else %}
+    
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">S/N</th>
+                <th scope="col">Party</th>
+                <th scope="col">Score</th>
+                <th scope="col">{UID</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in lg_result %}
+            <tr>
+                <th scope="row">{{ i.id }}</th>
+                <td>{{ i.party_abbreviation }}</td>
+                <td>{{ i.party_score }}</td>
+                <td>{{ i.pollingunit_uniqueid }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}   
+
+{% endblock %}

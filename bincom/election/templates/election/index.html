@@ -1,0 +1,42 @@
+{% extends "election/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-section">
+        <form action="{% url 'home' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Choose Polling Unit ID </legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Enter</button>
+            </div>
+        </form>
+    </div>
+        
+    <h3>Welcome to the Election Page for Polling Unit {{ PU_ID }} </h3>
+        
+        {% if not results %}
+            <h4> No Result for this Polling Unit</h4>
+        {% else %}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">S/N</th>
+                    <th scope="col">Party</th>
+                    <th scope="col">Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for result in results %}
+                <tr>
+                    <th scope="row">{{ result.id }}</th>
+                    <td>{{ result.party_abbreviation }}</td>
+                    <td>{{ result.party_score }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+{% endblock %}
